@@ -48,10 +48,14 @@ def handle_message(event):
     msg = event.message.text
     r = '可以換一個問題嗎?'
 
-    if msg == 'hi':
+    if msg in ['hi', 'Hi']:
         r = 'hello'
-    elif msg == '妳吃飯了嗎?':
+    elif msg == '你吃飯了嗎?':
         r = '還沒，妳呢? 要不要一起吃?'
+    elif  msg == '你是誰':
+        r = '我是機器人'
+    elif '訂位' in msg:
+        r = '您想訂位，是嗎?'
 
 
     line_bot_api.reply_message(
