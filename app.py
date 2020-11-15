@@ -6,28 +6,6 @@
 
 # 架設 Server有名套件: flask and django
 
-# 加入driving time code
-
-import simplejson
-
-import urllib.request
-
-from datetime import datetime
-def driving_time():
-    home_coord = "24.9479878,121.374193" # Home
-    work_coord = "24.7703269,121.0477070" # Work 
-    API1 = "AIzaSyBZbK9PBliNN1-eMp_rj0pLQw-CLRmK8eM" # Non existing example key
-    API2 = "AIzaSyCGuWMrXoGL7WgT5jTprl6nyv7AziSyraU" # Non existing example key
-    url_home2work = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + home_coord + "&destinations=" + work_coord + "&mode=driving&traffic_model=best_guess&departure_time=now&language=en-EN&sensor=false&key=" + API1
-    url_work2home = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + work_coord + "&destinations=" + home_coord + "&mode=driving&traffic_model=best_guess&departure_time=now&language=en-EN&sensor=false&key=" + API2
-    result_home2work = simplejson.load(urllib.request.urlopen(url_home2work))
-    result_work2home = simplejson.load(urllib.request.urlopen(url_work2home))
-    driving_time_seconds_home2work = result_home2work['rows'][0]['elements'][0]['duration_in_traffic']['text']
-    driving_time_seconds_work2home = result_work2home['rows'][0]['elements'][0]['duration_in_traffic']['text']
-
-
-# 加入driving time code
-
 from flask import Flask, request, abort
 
 from linebot import (
@@ -87,11 +65,6 @@ def handle_message(event):
     elif  msg == '你是誰':
         r = '我是機器人'
 
-    elif msg == 'driving time':
-        driving_time()
-
-        r = '工研院 to 三峽:'+ driving_time_seconds_work2home + ', ' + '三峽 to 工研院: ' + driving_time_seconds_home2work
-
 
     line_bot_api.reply_message(
         event.reply_token,
@@ -100,4 +73,29 @@ def handle_message(event):
 
 if __name__ == "__main__":
     app.run()
+
+# 加入driving time code
+
+# import simplejson
+
+# import urllib.request
+
+# from datetime import datetime
+# def driving_time():
+#     home_coord = "24.9479878,121.374193" # Home
+#     work_coord = "24.7703269,121.0477070" # Work 
+#     API1 = "AIzaSyBZbK9PBliNN1-eMp_rj0pLQw-CLRmK8eM" # Non existing example key
+#     API2 = "AIzaSyCGuWMrXoGL7WgT5jTprl6nyv7AziSyraU" # Non existing example key
+#     url_home2work = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + home_coord + "&destinations=" + work_coord + "&mode=driving&traffic_model=best_guess&departure_time=now&language=en-EN&sensor=false&key=" + API1
+#     url_work2home = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + work_coord + "&destinations=" + home_coord + "&mode=driving&traffic_model=best_guess&departure_time=now&language=en-EN&sensor=false&key=" + API2
+#     result_home2work = simplejson.load(urllib.request.urlopen(url_home2work))
+#     result_work2home = simplejson.load(urllib.request.urlopen(url_work2home))
+#     driving_time_seconds_home2work = result_home2work['rows'][0]['elements'][0]['duration_in_traffic']['text']
+#     driving_time_seconds_work2home = result_work2home['rows'][0]['elements'][0]['duration_in_traffic']['text']
+
+    # elif msg == 'driving time':
+    #     driving_time()
+
+    #     r = '工研院 to 三峽:'+ driving_time_seconds_work2home + ', ' + '三峽 to 工研院: ' + driving_time_seconds_home2work
+
 
